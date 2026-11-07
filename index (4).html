@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rubendran P — MERN Stack Developer</title>
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --card: #141c2b;
+      --border: #22304a;
+      --text: #e6e9f0;
+      --muted: #8a94a8;
+      --accent: #3b82f6;
+      --accent-2: #22d3ee;
+      --green: #34d399;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1120px, 92%); margin: 0 auto; }
+    section { padding: 88px 0; border-top: 1px solid var(--border); }
+    .section-tag {
+      display: inline-block;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+    h2 { font-size: clamp(1.7rem, 3.5vw, 2.4rem); line-height: 1.2; margin-bottom: 14px; }
+    h3 { font-size: 1.05rem; margin-bottom: 8px; }
+    .lead { color: var(--muted); max-width: 640px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 11px 20px; border-radius: 8px; font-weight: 600; font-size: 0.95rem;
+      border: 1px solid transparent; cursor: pointer; transition: transform .15s, opacity .15s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-ghost { border-color: var(--border); color: var(--text); background: transparent; }
+    .btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(11, 15, 23, .85); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo { font-weight: 700; letter-spacing: .02em; }
+    .logo span { color: var(--accent-2); }
+    .nav-links { display: flex; gap: 22px; font-size: .9rem; color: var(--muted); }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { font-size: .85rem; padding: 8px 14px; }
+
+    .hero { padding: 72px 0 80px; border-top: none; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
+    .hero h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.1; margin-bottom: 12px; }
+    .hero .role { color: var(--accent-2); font-family: ui-monospace, Menlo, monospace; font-size: .95rem; margin-bottom: 18px; }
+    .hero p.desc { color: var(--muted); margin-bottom: 26px; max-width: 560px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 26px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      font-size: .78rem; padding: 4px 10px; border-radius: 6px;
+      background: var(--card); border: 1px solid var(--border); color: var(--muted);
+    }
+    .avatar-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .avatar-frame {
+      aspect-ratio: 4 / 5; background: linear-gradient(160deg, #1e2a44, #0b1220);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: .9rem;
+    }
+    .avatar-caption { padding: 14px 16px; border-top: 1px solid var(--border); font-size: .85rem; color: var(--muted); }
+    .avatar-caption strong { color: var(--text); display: block; }
+
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+    .about-text p { color: var(--muted); margin-bottom: 14px; }
+    .about-text strong { color: var(--text); }
+    .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .feature { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
+    .feature .num { font-family: ui-monospace, Menlo, monospace; font-size: .75rem; color: var(--accent-2); }
+    .feature p { color: var(--muted); font-size: .88rem; }
+    .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
+    .fact { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; font-size: .88rem; color: var(--muted); }
+    .fact strong { color: var(--text); display: block; }
+
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px; }
+    .skill-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+    .skill-card .icon { font-size: 1.3rem; margin-bottom: 10px; color: var(--accent-2); }
+    .skill-card p { color: var(--muted); font-size: .88rem; margin-bottom: 14px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      font-family: ui-monospace, Menlo, monospace; font-size: .72rem;
+      padding: 3px 8px; border-radius: 5px; background: #0b1220; border: 1px solid var(--border); color: var(--accent-2);
+    }
+    .exploring { grid-column: 1 / -1; background: var(--card); border: 1px dashed var(--border); border-radius: var(--radius); padding: 22px; }
+    .exploring .eyebrow { color: var(--accent-2); font-family: ui-monospace, Menlo, monospace; font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; }
+    .exploring p { color: var(--muted); font-size: .88rem; margin-top: 4px; }
+    .exploring .tags { margin-top: 12px; }
+    .exploring .tag { color: var(--green); }
+
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 36px; }
+    .project { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
+    .project-preview {
+      height: 150px; background: linear-gradient(135deg, #16233b, #0b1220);
+      display: flex; align-items: center; justify-content: center;
+      font-family: ui-monospace, Menlo, monospace; font-size: .8rem; color: var(--muted);
+    }
+    .project-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+    .project-body p { color: var(--muted); font-size: .88rem; margin-bottom: 14px; flex: 1; }
+    .project-meta { font-size: .75rem; color: var(--accent-2); margin-bottom: 6px; font-family: ui-monospace, Menlo, monospace; }
+    .project-actions { display: flex; gap: 10px; margin-top: 14px; }
+    .project-actions .btn { font-size: .82rem; padding: 8px 12px; }
+    .more { text-align: center; margin-top: 30px; }
+
+    .timeline { margin-top: 36px; display: grid; gap: 16px; }
+    .item {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 24px;
+      display: grid; grid-template-columns: 1fr auto; gap: 8px 16px;
+    }
+    .item .org { color: var(--accent-2); font-size: .88rem; }
+    .item .when { font-family: ui-monospace, Menlo, monospace; font-size: .75rem; color: var(--muted); text-align: right; }
+    .item p { grid-column: 1 / -1; color: var(--muted); font-size: .9rem; }
+    .cert-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+    .cert { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; font-size: .9rem; }
+    .cert span { color: var(--muted); font-size: .8rem; display: block; }
+
+    .cta-banner {
+      background: linear-gradient(120deg, #0f1b33 0%, #0b1220 60%, #0c2a34 100%);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .cta-inner { display: grid; grid-template-columns: 1.2fr .8fr; gap: 40px; align-items: center; }
+    .cta-inner p { color: var(--muted); margin-bottom: 18px; }
+    .cta-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+    .cta-card small { color: var(--muted); font-family: ui-monospace, Menlo, monospace; font-size: .72rem; }
+    .cta-card h3 { margin: 6px 0 4px; }
+    .cta-card p { color: var(--muted); font-size: .88rem; margin-bottom: 14px; }
+
+    .contact-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 32px; margin-top: 36px; align-items: start; }
+    .info-list { display: grid; gap: 14px; }
+    .info { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
+    .info small { color: var(--muted); font-family: ui-monospace, Menlo, monospace; font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; }
+    .info strong { display: block; font-size: .95rem; }
+    .form-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; }
+    .form-card label { display: block; font-size: .85rem; color: var(--muted); margin-bottom: 6px; }
+    .form-card input {
+      width: 100%; padding: 12px 14px; margin-bottom: 16px;
+      background: #0b1220; border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: .95rem;
+    }
+    .form-card input:focus { outline: 2px solid var(--accent); border-color: transparent; }
+    .form-card .btn { width: 100%; }
+    .form-msg { margin-top: 14px; font-size: .9rem; text-align: center; min-height: 1.2em; }
+    .form-msg.ok { color: var(--green); }
+    .form-msg.err { color: #f87171; }
+
+    footer { border-top: 1px solid var(--border); padding: 28px 0; }
+    .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; }
+    .footer-inner p { color: var(--muted); font-size: .85rem; }
+    .footer-links { display: flex; gap: 18px; font-size: .85rem; color: var(--muted); }
+    .footer-links a:hover { color: var(--text); }
+    .copyright { color: var(--muted); font-size: .8rem; margin-top: 20px; }
+
+    @media (max-width: 900px) {
+      .hero-grid, .about-grid, .cta-inner, .contact-grid { grid-template-columns: 1fr; }
+      .skills-grid, .projects-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      section { padding: 64px 0; }
+      .nav-links { display: none; }
+      .skills-grid, .projects-grid, .feature-grid, .facts, .cert-row { grid-template-columns: 1fr; }
+      .item { grid-template-columns: 1fr; }
+      .item .when { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container nav-inner">
+      <a href="#top" class="logo">RUBENDRAN<span>P.</span></a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <a href="#contact" class="btn btn-primary nav-cta">Hire me</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="container hero-grid">
+      <div>
+        <span class="section-tag">Available for opportunities</span>
+        <h1>Hi, I'm Rubendran P.</h1>
+        <p class="role">MERN Stack Developer · Aspiring AI Application Engineer</p>
+        <p class="desc">
+          I build responsive, user-focused web applications using modern web technologies. With hands-on
+          MERN stack experience, I am growing my interest in Artificial Intelligence and focused on turning
+          ideas into clean, working software.
+        </p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">View my work →</a>
+          <a href="#contact" class="btn btn-ghost">Get in touch</a>
+        </div>
+        <div class="chips">
+          <span class="chip">LinkedIn</span>
+          <span class="chip">GitHub</span>
+          <span class="chip">Email</span>
+          <span class="chip">Resume</span>
+        </div>
+      </div>
+      <div class="avatar-card">
+        <div class="avatar-frame">Profile photo</div>
+        <div class="avatar-caption">
+          <strong>Rubendran P.</strong>
+          MERN Stack Developer · Madurai, India
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="container about-grid">
+      <div>
+        <span class="section-tag">About me</span>
+        <h2>Building Today. Innovating Tomorrow.</h2>
+        <div class="about-text">
+          <p>
+            I am pursuing a <strong>Master of Computer Applications (MCA)</strong> after completing a
+            <strong>B.Sc. in Computer Science</strong>. My work centres on full-stack web development with the
+            MERN stack, and I enjoy building systems that are practical, well-structured and easy to use.
+          </p>
+          <p>
+            I am currently exploring <strong>Generative AI</strong>, prompt design and AI-assisted application
+            development, with the goal of becoming an <strong>AI Application Engineer</strong>.
+          </p>
+        </div>
+        <div class="facts">
+          <div class="fact"><strong>Education</strong>MCA · Computer Applications</div>
+          <div class="fact"><strong>Focus</strong>MERN &amp; AI Applications</div>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <div class="feature"><div class="num">01</div><h3>Full-Stack Dev</h3><p>Front-end and back-end development with React, Node.js and MongoDB.</p></div>
+        <div class="feature"><div class="num">02</div><h3>AI Applications</h3><p>Exploring how language models can power practical application features.</p></div>
+        <div class="feature"><div class="num">03</div><h3>Problem Solving</h3><p>Breaking requirements into clear, testable steps.</p></div>
+        <div class="feature"><div class="num">04</div><h3>Constant Growth</h3><p>Learning new tools and sharing progress through real projects.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="container">
+      <span class="section-tag">Tech stack</span>
+      <h2>Technologies I Work With</h2>
+      <p class="lead">Tools and technologies I use to build applications, solve problems and explore new possibilities.</p>
+
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="icon">{ }</div>
+          <h3>Programming Languages</h3>
+          <p>Foundational languages for logic, data and application development.</p>
+          <div class="tags"><span class="tag">JavaScript</span><span class="tag">Python</span><span class="tag">Java</span></div>
+        </div>
+        <div class="skill-card">
+          <div class="icon">▣</div>
+          <h3>Frontend Development</h3>
+          <p>Component-based interfaces, responsive layouts and modern styling.</p>
+          <div class="tags"><span class="tag">React.js</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Bootstrap</span></div>
+        </div>
+        <div class="skill-card">
+          <div class="icon">⚙</div>
+          <h3>Backend Development</h3>
+          <p>Server-side logic, REST APIs and database-backed services.</p>
+          <div class="tags"><span class="tag">Node.js</span><span class="tag">Express.js</span><span class="tag">REST APIs</span></div>
+        </div>
+        <div class="skill-card">
+          <div class="icon">▤</div>
+          <h3>Databases</h3>
+          <p>Document modelling, schema design and relational data handling.</p>
+          <div class="tags"><span class="tag">MongoDB</span><span class="tag">SQL</span><span class="tag">Mongoose</span></div>
+        </div>
+        <div class="skill-card">
+          <div class="icon">◈</div>
+          <h3>Development &amp; Design Tools</h3>
+          <p>Version control, deployment and collaborative workflows.</p>
+          <div class="tags"><span class="tag">VS Code</span><span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">Figma</span></div>
+        </div>
+        <div class="skill-card">
+          <div class="icon">⚡</div>
+          <h3>Productivity &amp; Automation</h3>
+          <p>Tools that streamline documentation, scripting and spreadsheet workflows.</p>
+          <div class="tags"><span class="tag">Microsoft Office</span><span class="tag">Google Apps Script</span></div>
+        </div>
+        <div class="exploring">
+          <div class="eyebrow">Current learning</div>
+          <h3 style="margin-top:6px">Currently Exploring</h3>
+          <p>AI application engineering, LLM integration and building AI-powered features on top of web apps.</p>
+          <div class="tags">
+            <span class="tag">Generative AI</span>
+            <span class="tag">LLM APIs</span>
+            <span class="tag">Prompt Engineering</span>
+            <span class="tag">AI Agents</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="container">
+      <span class="section-tag">Selected work</span>
+      <h2>Things I've Built</h2>
+      <p class="lead">Every project is an opportunity to learn something new, solve a real problem and keep improving my craft.</p>
+
+      <div class="projects-grid">
+        <article class="project">
+          <div class="project-preview">gym-management / dashboard</div>
+          <div class="project-body">
+            <div class="project-meta">PROJECT 01 · FULL STACK</div>
+            <h3>Gym Management System</h3>
+            <p>Dashboard for managing members, plans and payments, built on the MERN stack.</p>
+            <div class="tags"><span class="tag">MongoDB</span><span class="tag">Express</span><span class="tag">React</span><span class="tag">Node.js</span></div>
+            <div class="project-actions">
+              <a href="#" class="btn btn-ghost">View Project</a>
+              <a href="#" class="btn btn-ghost">GitHub</a>
+            </div>
+          </div>
+        </article>
+        <article class="project">
+          <div class="project-preview">tutorial-center / platform</div>
+          <div class="project-body">
+            <div class="project-meta">PROJECT 02 · WEB PLATFORM</div>
+            <h3>Tutorial Center Platform</h3>
+            <p>Platform for managing courses, batches and student enrolments with a clean admin panel.</p>
+            <div class="tags"><span class="tag">React</span><span class="tag">Node.js</span><span class="tag">MongoDB</span></div>
+            <div class="project-actions">
+              <a href="#" class="btn btn-ghost">View Project</a>
+              <a href="#" class="btn btn-ghost">GitHub</a>
+            </div>
+          </div>
+        </article>
+        <article class="project">
+          <div class="project-preview">store-app / e-commerce</div>
+          <div class="project-body">
+            <div class="project-meta">PROJECT 03 · E-COMMERCE</div>
+            <h3>Departmental Store E-Commerce</h3>
+            <p>Online store with product catalogue, cart and checkout flow.</p>
+            <div class="tags"><span class="tag">MERN</span><span class="tag">REST API</span><span class="tag">JWT</span></div>
+            <div class="project-actions">
+              <a href="#" class="btn btn-ghost">View Project</a>
+              <a href="#" class="btn btn-ghost">GitHub</a>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="more">
+        <a href="#" class="btn btn-ghost">Explore more projects ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="container">
+      <span class="section-tag">Background</span>
+      <h2>Experience That Shapes Me</h2>
+
+      <div class="timeline">
+        <div class="item">
+          <div>
+            <span class="tag">Work experience</span>
+            <h3 style="margin-top:8px">MERN Stack Developer Intern</h3>
+            <div class="org">Full-stack web development</div>
+          </div>
+          <div class="when">INTERNSHIP</div>
+          <p>Built and maintained web features across React front ends and Node.js/Express APIs, using MongoDB and a Git-based workflow.</p>
+        </div>
+        <div class="item">
+          <div>
+            <span class="tag">Postgraduate</span>
+            <h3 style="margin-top:8px">Master of Computer Applications (MCA)</h3>
+            <div class="org">Current programme</div>
+          </div>
+          <div class="when">PRESENT</div>
+          <p>Advanced study in software engineering, databases, web technologies and application design.</p>
+        </div>
+        <div class="item">
+          <div>
+            <span class="tag">Undergraduate</span>
+            <h3 style="margin-top:8px">B.Sc. Computer Science</h3>
+            <div class="org">Computer science foundations</div>
+          </div>
+          <div class="when">COMPLETED</div>
+          <p>Programming, data structures, operating systems and database systems.</p>
+        </div>
+        <div class="item">
+          <div>
+            <span class="tag">Schooling</span>
+            <h3 style="margin-top:8px">Higher Secondary Education</h3>
+            <div class="org">Mathematics and Computer Science</div>
+          </div>
+          <div class="when">COMPLETED</div>
+          <p>Higher secondary education with a focus on mathematics and computer science.</p>
+        </div>
+      </div>
+
+      <div class="cert-row">
+        <div class="cert"><span>Certification</span>Python Full Stack Development</div>
+        <div class="cert"><span>Certification</span>Python Development Certification</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="container cta-inner">
+      <div>
+        <span class="section-tag">Next step</span>
+        <h2>Beyond Web Development. Into AI.</h2>
+        <p>
+          I am building on my MERN foundation while growing into AI application engineering, combining web
+          development with machine learning and large language models to create practical software that solves
+          real problems.
+        </p>
+        <a href="#contact" class="btn btn-primary">Let's connect →</a>
+      </div>
+      <div class="cta-card">
+        <small>Target role</small>
+        <h3>AI Application Engineering</h3>
+        <p>Building intelligent software, from prototype to production.</p>
+        <span class="tag">Open to opportunities</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <span class="section-tag">Contact</span>
+      <h2>Have an Idea? Let's Build Something Together.</h2>
+      <p class="lead">I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.</p>
+
+      <div class="contact-grid">
+        <div class="info-list">
+          <div class="info"><small>Email</small><strong>rubendranp469@gmail.com</strong></div>
+          <div class="info"><small>Location</small><strong>Madurai, Tamil Nadu, India</strong></div>
+          <div class="info"><small>Professional network</small><strong>LinkedIn Profile</strong></div>
+          <div class="info"><small>Code repository</small><strong>GitHub · RUBENDRANP</strong></div>
+        </div>
+
+        <div class="form-card">
+          <form id="contact-form">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" required />
+
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required />
+
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" placeholder="+91 00000 00000" required />
+
+            <button id="submit-btn" class="btn btn-primary" type="submit">Send message</button>
+          </form>
+          <div id="form-msg" class="form-msg" role="status"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <strong>RUBENDRAN P.</strong>
+        <p>Building digital experiences with clarity, creativity and code.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#">LinkedIn</a>
+        <a href="#">GitHub</a>
+        <a href="#">Email</a>
+        <a href="#top">Back to top ↑</a>
+      </div>
+    </div>
+    <div class="container">
+      <p class="copyright">© 2026 Rubendran P.</p>
+    </div>
+  </footer>
+
+  <script>
+    var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxr0m-esZIikeCJO6JBqQrWclvimmaxC7n6Oi99joqvr5a850az73Nnysp45VcStMfr/exec";
+
+    var form = document.getElementById("contact-form");
+    var btn = document.getElementById("submit-btn");
+    var msg = document.getElementById("form-msg");
+
+    function showSuccess() {
+      msg.className = "form-msg ok";
+      msg.textContent = "Thanks! Your details have been sent.";
+      form.reset();
+      btn.disabled = false;
+    }
+
+    function showError() {
+      msg.className = "form-msg err";
+      msg.textContent = "Something went wrong. Please try again.";
+      btn.disabled = false;
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      var name = document.getElementById("name").value.trim();
+      var email = document.getElementById("email").value.trim();
+      var phone = document.getElementById("phone").value.trim();
+
+      var url = SCRIPT_URL + "?" + new URLSearchParams({ name: name, email: email, phone: phone });
+
+      btn.disabled = true;
+      msg.className = "form-msg";
+      msg.textContent = "Sending…";
+
+      fetch(url, { method: "GET", mode: "no-cors" })
+        .then(function () { showSuccess(); })
+        .catch(function () { showError(); });
+    });
+  </script>
+
+</body>
+</html>
